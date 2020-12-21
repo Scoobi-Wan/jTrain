@@ -9,9 +9,15 @@
 <h2>A Jeopardy themed trivia training website.</h2>
 <br>
 
+<div class="loginDiv">
+<form action="controller.php" method="POST">
+
 <?php
 echo "<input type='submit' name='Login' class='loginButton' value='Login'/>";
 
 ?>
+
+</form>
+</div>
 </body>
 </html>
