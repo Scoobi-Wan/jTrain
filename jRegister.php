@@ -1,3 +1,4 @@
+  
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,12 @@
 <!-- Author: Paul Rich -->
 </head>
 <body>
+    <header>
+        <div class="leftNav">
+            <a href="jView.php" class="homeButton">Home</a>
+        </div>
+</header>
+
 
 <?php session_start() ?>
 
@@ -14,12 +21,13 @@
 <form autocomplete="off"  action="jController.php" method="post">
 <div class="registerContainer">
 <h3>Registration</h3>
-<input type="text" name="registerUsername" placeholder='Username' required>
-<br>
-<input type="password" name="registerPassword" placeholder='Password' required>
-<br><br>
-<input type="submit" value="Register"> <br>
-<div id="nameTakenDiv"></div>
+<div class="registerFormDiv">
+    <input type="text" name="registerUsername" placeholder='Username' required>
+    <br>
+    <input type="password" name="registerPassword" placeholder='Password' required>
+    <br><br>
+    <input type="submit" value="Register"> <br>
+    <div id="nameTakenDiv"></div>
 
 <?php 
 if( isset($_SESSION ['registrationError']))
