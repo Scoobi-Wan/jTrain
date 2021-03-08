@@ -1,0 +1,87 @@
+<?php
+
+class jDatabaseAdaptor {
+    private $DB; // The instance variable used in every method below
+    // Connect to an existing data based named 'first'
+    public function __construct() {
+      $dataBase ='mysql:dbname=jtrain;charset=utf8;host=127.0.0.1';
+      $user ='USER';
+      $password ='PASSWORD'; // Empty string with XAMPP install
+      try {
+          $this->DB = new PDO ( $dataBase, $user, $password );
+          $this->DB->setAttribute ( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+      } catch ( PDOException $e ) {
+          echo ('Error establishing Connection');
+          exit ();
+      }
+    }
+
+    public function verifyCredentials($accountName, $psw){
+        $stmt = $this->DB->prepare("SELECT user_name, password FROM users "  .
+            " where user_name =  :accountName");
+        $stmt->bindParam(':accountName', $accountName);
+        $stmt->execute();
+        $array = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if(count($array) === 0)
+            return false;  // $accountName does not exist
+            else if($array[0]['user_name'] === $accountName && password_verify($psw, $array[0]['password']))
+             return true;  // Assume accountNames ae unique, no more than 1
+        else
+             return false;
+    }
+
+    public function addUser($accountname, $psw){
+        
+        $checkUsrStmt = $this->DB->prepare("SELECT user_name FROM users where user_name= :accountname");
+        $checkUsrStmt->bindParam(':accountname', $accountname);
+        $checkUsrStmt->execute();
+        $usrArray = $checkUsrStmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (count($usrArray) === 0) {
+            $stmt = $this->DB->prepare("INSERT INTO users (user_name,password) VALUES ( :accountname, :psw)");
+            $stmt->bindParam(':accountname', $accountname);
+            $psw = password_hash($psw, PASSWORD_DEFAULT);
+            $stmt->bindParam(':psw', $psw);
+            $stmt->execute();
+            return true;
+        } else {
+            return false;
+        }
+    
+    }
+
+
+    public function getCluesFromRandomCat() {
+
+        $returned_clue;
+
+        $random_clue_pick = rand(90, 384573);
+        $stmt = $this->DB->prepare("SELECT * FROM clues where clue_id= :random_clue_pick");
+        $stmt->bindParam(':random_clue_pick', $random_clue_pick);
+        $stmt->execute();
+        $returned_clue = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        
+        $chosen_cat = $returned_clue[0]['clue_category'];
+        $stmt = $this->DB->prepare("SELECT * FROM clues where clue_category LIKE :chosen_cat");
+        $stmt->bindParam(':chosen_cat', $chosen_cat);
+        $stmt->execute();
+        $chosen_clue_array = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (count($chosen_clue_array) > 10) {
+            $size_of_cat = count($chosen_clue_array);
+            $random_pick_from_cat = rand(0, ($size_of_cat - 10));
+            $chosen_clue_array = array_slice($clue_array, $random_pick_from_cat, ($random_pick_from_cat + 10));
+        }
+        return $chosen_clue_array;
+        
+    }
+
+    
+
+} 
+
+
+
+
+?>
