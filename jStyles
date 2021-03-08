@@ -2,10 +2,12 @@
 
 
 html {
-	background-color: #060CE9
+	background-color: #141b4a
 }
 
 h1 {
+	margin-top: 25vh;
+	font-family: 'Anton', 'sans-serif';
 	font-size: 70px;
 	color: white;
 	text-align: center;
@@ -29,8 +31,109 @@ h3 {
   	color: white;
 }
 
+.divider{
+	width: 10px;
+	height: auto;
+	display: inline-block;
+}
+
 .loginDiv {
+	margin-top: 2vh;
 	display: flex;
   	justify-content: center;
+}
+
+.signInButton {
+	margin-left: 20px;
+}
+
+.registerButton {
+	margin-right: 20px;
+}
+
+.registerFormDiv {
+	text-align: center;
+	margin: auto;
+}
+
+.signInFormDiv {
+	text-align: center;
+	margin: auto;
+}
+
+.welcomeDiv{
+	font-size: 20px;
+	font-family: 'Lobster';
+}
+
+.signOutButton{
+	font-family: "Verdana" sans-serif;
+	font-size: 1em;
+	text-align: left;
+	color: blue;
+	background: none;
+	margin: 0;
+	padding: 0;
+	border: none;
+	cursor: pointer;
+	margin-top: -2vh;
+}
+
+.rightNav{
+	float: right;
+}
+
+header {
+	height: 50px;
+}
+
+.homeButton{
+	margin-left: 2vh;
+}
+.welcomeDiv {
+	font-family: 'Anton', 'sans-serif';
+	 font-size: 48px;
+	 color: rgb(241, 207, 12);
+	 margin-top: 15vh;
+	}
+
+.clueDiv{
+	margin-top: 15vh;
+	font-family: 'Anton', 'sans-serif';
+	font-size: 70px;
+	color: white;
+	text-align: center;
+	margin-left: 15vh;
+	margin-right: 15vh;	
+}
+
+.regSign {
+	margin-top: 20vh;
+	display: flex;
+  	justify-content: center;
+}
+
+
+.valueDiv{
+	font-family: 'Anton', 'sans-serif';
+	font-size: 40px;
+	color: white;
+	text-align: center;
+}
+
+.catDiv {
+	margin-top: 5vh;
+	font-family: 'Anton', 'sans-serif';
+	font-size: 60px;
+	color: white;
+	text-align: center;
+}
+
+.answerDiv{
+	margin-top: 15vh;
+	font-family: 'Anton', 'sans-serif';
+	font-size: 50px;
+	color: rgb(241, 207, 12);
+	text-align: center;
 }
 
