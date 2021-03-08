@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Random Category Training</title>
+<link rel="stylesheet" type="text/css" href="jStyles.css">
+<!-- Author: Paul Rich -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
+</head>
+<body onload="play_category()">
+<header>
+    <div class="leftNav">
+        <a href="jView.php" class="homeButton">Home</a>
+    </div>
+</header>
+
+<div class="catDiv" id="catDiv"></div>
+<div class="valueDiv" id="valueDiv"></div>
+<div class="clueDiv" id="clueDiv"></div>
+<div class="answerDiv" id="answerDiv"></div>
+
+
+<?php session_start();
+
+require_once __DIR__ . '\jDatabaseAdaptor.php';
+
+
+
+?>
+
+<script>
+
+
+var clueDiv = document.getElementById("clueDiv");
+var valueDiv = document.getElementById("valueDiv");
+var catDiv = document.getElementById("catDiv");
+var answerDiv = document.getElementById("answerDiv");
+var clue_array;
+var clue_arr_counter;
+var clue_arr_size;
+var clues_correct = 0;
+var clues_total = 0;
+
+
+document.body.onkeyup = function(e){
+    if(e.keyCode == 32){
+        show_clues();
+    }
+
+	else if(e.keyCode == 80){
+        play_category();
+    }
+}
+
+
+
+
+window.addEventListener("click", show_clues);
+var show_clue_case = 0;
+
+function show_clues() {
+
+	var end_of_cat_if_1 = 0;
+
+  if(clue_arr_counter < clue_arr_size){
+
+	var current_clue = clue_array[clue_arr_counter];
+	var current_category = current_clue.clue_category;
+	var current_value = current_clue.clue_value;
+	var current_text = current_clue.clue_text;
+	var current_answer = current_clue.clue_answer;
+
+	if (show_clue_case === 0) {
+		answerDiv.innerHTML = "";
+		clueDiv.innerHTML = current_category;
+		show_clue_case = 1;
+	} else if (show_clue_case === 1) {
+		clueDiv.innerHTML = current_text;
+		catDiv.innerHTML = current_category;
+		valueDiv.innerHTML = current_value;
+		answerDiv.innerHTML = "";
+		show_clue_case = 2;
+	} else {
+		answerDiv.innerHTML = current_answer;
+		show_clue_case = 1;
+		clue_arr_counter += 1;
+	}
+
+	
+
+  } else {
+	valueDiv.innerHTML = "";
+	catDiv.innerHTML = "";
+	answerDiv.innerHTML = "";
+	clueDiv.innerHTML = "Category complete.\nResults\tX/Y";
+  }
+}
+
+
+function play_category() {
+
+    var ajax = new XMLHttpRequest();
+  	var queryURL = "jController.php?todo=getRandomCatClues";
+  	ajax.open("GET", queryURL);
+  	ajax.send();
+	var ajaxCall = 0;
+  	ajax.onreadystatechange = function() {
+  	  	if (ajax.readyState = 4 && ajax.status == 200) {
+  	  	  	var clue_list = (ajax.responseText);
+			if (clue_list.length !== 0) {
+				console.log("Hi Paul");
+				clue_array = JSON.parse(clue_list);
+				clue_arr_counter = 0;
+				clue_arr_size = clue_array.length;
+				valueDiv.innerHTML = "";
+				catDiv.innerHTML = "";
+				answerDiv.innerHTML = "";
+				clueDiv.innerHTML = clue_array[0]['clue_category'];
+				clues_correct = 0;
+				clues_total = 0;
+
+
+				}
+			}
+			
+  	  	}
+  	}
+
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
